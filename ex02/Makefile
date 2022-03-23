@@ -1,8 +1,9 @@
 NAME := prog.out
 CXX  := c++
-CXXFLAGS := -Wall -Wextra -Werror -std=c++98
+CXXFLAGS := -Wall -Wextra -Werror -std=c++98 \
+			-Iinclude/ -Itemplate/
 
-SRC := $(wildcard *.cpp)
+SRC := $(wildcard src/*.cpp)
 OBJ := $(SRC:%.cpp=%.o)
 
 .PHONY: run re clean
