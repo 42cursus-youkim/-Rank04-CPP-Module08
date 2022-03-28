@@ -12,9 +12,6 @@ class Span {
   // Disabled Constructor
   Span();
 
-  // Methods
-  void assertNotFull() const;
-
  public:
   // Constructors & Destructor
   Span(uint n);
@@ -32,6 +29,5 @@ class Span {
   size_t shortestSpan() const;
   size_t longestSpan() const;
 };
-
 
 #endif  // __SPAN_H__
