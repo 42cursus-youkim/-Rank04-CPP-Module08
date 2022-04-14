@@ -7,7 +7,6 @@
 #include "util.hpp"
 
 using std::cout;
-template class MutantStack<int>;
 
 void printInt(int value) {
   std::cout << value << ", ";
