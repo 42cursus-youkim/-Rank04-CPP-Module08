@@ -95,7 +95,8 @@
       "utility": "cpp",
       "vector": "cpp",
       "*.tpp": "cpp",
-      "iomanip": "cpp"
+      "iomanip": "cpp",
+      "__cxx_version": "cpp"
     }
   }
 }

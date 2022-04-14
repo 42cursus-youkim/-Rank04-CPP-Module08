@@ -2,105 +2,136 @@
 #include <iostream>
 #include <list>
 #include <string>
+#include <vector>
 #include "mutantstack.hpp"
+#include "util.hpp"
 
 using std::cout;
-
-void printInt(int value) {
-  std::cout << value << "\n";
-}
-
 template class MutantStack<int>;
 
-int main(void) {
-  {
-    MutantStack<int> mstack;
+void printInt(int value) {
+  std::cout << value << ", ";
+}
 
+void mstack_info(MutantStack<int>& mstack) {
+  log::val("size  ", mstack.size());
+  log::val("empty?", mstack.empty());
+  cout << BBLU << "data   " << HYEL ": " YEL;
+  std::for_each(mstack.begin(), mstack.end(), printInt);
+  cout << "\n" END;
+}
+
+void test_mandatory() {
+  test::header("Mandatory output cmp");
+  {
+    test::subject("Mutantstack");
+    MutantStack<int> mstack;
     mstack.push(5);
     mstack.push(17);
-
-    cout << "top : " << mstack.top() << "\n";
-
+    std::cout << mstack.top() << std::endl;
     mstack.pop();
-    cout << "top : " << mstack.top() << "\n";
-    cout << "size : " << mstack.size() << "\n";
-
+    std::cout << mstack.size() << std::endl;
     mstack.push(3);
     mstack.push(5);
     mstack.push(737);
+    //[...]
     mstack.push(0);
-
-    std::for_each(mstack.begin(), mstack.end(), printInt);
+    MutantStack<int>::iterator it = mstack.begin();
+    MutantStack<int>::iterator ite = mstack.end();
+    ++it;
+    --it;
+    while (it != ite) {
+      std::cout << *it << std::endl;
+      ++it;
+    }
+    std::stack<int> s(mstack);
   }
-  return 0;
+  {
+    test::subject("Mutantstack");
+    std::list<int> list;
+    list.push_back(5);
+    list.push_back(17);
+    std::cout << list.back() << std::endl;
+    list.pop_back();
+    std::cout << list.size() << std::endl;
+    list.push_back(3);
+    list.push_back(5);
+    list.push_back(737);
+    //[...]
+    list.push_back(0);
+    std::list<int>::iterator it = list.begin();
+    std::list<int>::iterator ite = list.end();
+    ++it;
+    --it;
+    while (it != ite) {
+      std::cout << *it << std::endl;
+      ++it;
+    }
+    std::list<int> s(list);
+  }
 }
 
-// std::cout << "================ list test ================" << "\n";
+void test_copy() {
+  test::header("copy constructor");
+  MutantStack<int> mstack;
 
-// std::list<int> list;
+  MutantStack<int> copied(mstack);
+  MutantStack<int> assigned = mstack;
 
-// list.push_back(5);
-// list.push_back(17);
+  for (int i = 0; i < 3; i++)
+    copied.pop();
+  for (int i = 120; i < 24; i++)
+    assigned.push(i);
 
-// std::cout << "top : " << list.back() << "\n";
+  mstack_info(mstack);
+  mstack_info(copied);
+  mstack_info(assigned);
+}
 
-// list.pop_back();
-// std::cout << "top : " << list.back() << "\n";
-// std::cout << "size : " << list.size() << "\n";
+void test_general() {
+  test::header("General");
+  {
+    cout.setf(std::ios::boolalpha);
+    test::subject("creation");
+    MutantStack<int> mstack;
 
-// list.push_back(3);
-// list.push_back(5);
-// list.push_back(737);
-// list.push_back(0);
+    test::subject("add { 0 .. 9 }");
+    for (int i = 0; i < 10; ++i)
+      mstack.push(i);
+    mstack_info(mstack);
+    test::subject("\npop untill empty");
+    for (int i = 0; i < 10; ++i) {
+      log::val("top", mstack.top());
+      mstack.pop();
+    }
+    mstack_info(mstack);
+  }
+  {
+    MutantStack<int> mstack;
+    for (int i = 0; i < 10; ++i)
+      mstack.push(i);
 
-// std::list<int>::iterator l_it = list.begin();
+    test::subject("iterator");
+    std::for_each(mstack.begin(), mstack.end(), printInt);
+    test::subject("reverse iterator");
+    std::for_each(mstack.rbegin(), mstack.rend(), printInt);
+    test::subject("const iterator");
+    for (MutantStack<int>::const_iterator it = mstack.begin();
+         it != mstack.end(); ++it) {
+      std::cout << *it << ", ";
+    }
 
-// for (; l_it != list.end(); l_it++) {
-//   std::cout << "value : " << *l_it << "\n";
-// }
+    test::subject("const reverse iterator");
+    for (MutantStack<int>::const_reverse_iterator it = mstack.rbegin();
+         it != mstack.rend(); ++it) {
+      std::cout << *it << ", ";
+    }
+    cout << "\n";
+  }
+}
 
-// std::cout << "================ copy constructor test ================"
-//           << "\n";
-// MutantStack<int> s_copy(mstack);
-// MutantStack<int> s_oper = mstack;
-
-// s_copy.pop();
-// s_copy.pop();
-// s_copy.pop();
-// s_copy.push(42);
-// s_copy.push(43);
-// s_copy.push(44);
-
-// MutantStack<int>::iterator c_iter = s_copy.begin();
-// for (; c_iter != s_copy.end(); c_iter++) {
-//   std::cout << *c_iter << "\n";
-// }
-
-// std::cout << "-------------------------------------------------------"
-//           << "\n";
-
-// s_oper.pop();
-// s_oper.pop();
-// s_oper.pop();
-// s_oper.push(52);
-// s_oper.push(53);
-// s_oper.push(54);
-
-// MutantStack<int>::iterator o_iter = s_oper.begin();
-// for (; o_iter != s_oper.end(); o_iter++) {
-//   std::cout << *o_iter << "\n";
-// }
-
-// std::cout << "================ reverse iterator test================"
-//           << "\n";
-// MutantStack<int> reverse;
-// reverse.push(1);
-// reverse.push(2);
-// reverse.push(3);
-// reverse.push(4);
-// reverse.push(5);
-
-// for (MutantStack<int>::reverse_iterator r_iter = reverse.rbegin();
-//      r_iter != reverse.rend(); r_iter++) {
-//   std::cout << "value : " << *r_iter << "\n";
-// }
+int main(void) {
+  // test_mandatory();
+  // test_general();
+  test_copy();
+}
