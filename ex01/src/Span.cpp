@@ -18,13 +18,6 @@ void Span::addNumber(int n) {
   _vec.push_back(n);
 }
 
-void Span::addNumber(const vec_it& begin, const vec_it& end) {
-  const uint size = std::distance(begin, end);
-  if (size > _n)
-    throw std::out_of_range("too many numbers");
-  _vec.insert(_vec.end(), begin, end);
-}
-
 size_t Span::shortestSpan() const {
   if (_vec.size() < 2)
     throw std::out_of_range("not enough numbers");

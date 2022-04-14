@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <vector>
 
+typedef unsigned int uint;
+
 class Span {
  private:
   uint _n;
@@ -24,7 +26,15 @@ class Span {
   // Methods
   typedef std::vector<int>::iterator vec_it;
   void addNumber(int n);
-  void addNumber(const vec_it& begin, const vec_it& end);
+
+  template <typename T>
+  void addNumber(const T& begin, const T& end) {
+    const uint size = std::distance(begin, end);
+    if (_n < _vec.size() + size)
+      throw std::out_of_range("too many numbers");
+
+    _vec.insert(begin, end);
+  }
 
   size_t shortestSpan() const;
   size_t longestSpan() const;
