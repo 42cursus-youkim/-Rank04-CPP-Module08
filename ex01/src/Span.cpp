@@ -23,10 +23,11 @@ size_t Span::shortestSpan() const {
     throw std::out_of_range("not enough numbers");
 
   std::vector<int> sorted = _vec;
+  std::vector<int> result(_vec.size());
+
   std::sort(sorted.begin(), sorted.end());
-  std::adjacent_difference(sorted.begin(), sorted.end(), sorted.begin());
-  size_t min = *std::min_element(sorted.begin() + 1, sorted.end());
-  return min;
+  std::adjacent_difference(sorted.begin(), sorted.end(), result.begin());
+  return *std::min_element(result.begin() + 1, result.end());
 }
 
 size_t Span::longestSpan() const {
