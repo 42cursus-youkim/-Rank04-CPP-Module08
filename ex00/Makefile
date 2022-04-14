@@ -1,6 +1,7 @@
 NAME := prog.out
 CXX  := c++
-CXXFLAGS := -Wall -Wextra -Werror -std=c++98
+CXXFLAGS := -Wall -Wextra -Werror -std=c++98\
+			-Iinclude/ -Iutil/
 
 SRC := $(wildcard *.cpp)
 OBJ := $(SRC:%.cpp=%.o)
