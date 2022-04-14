@@ -94,7 +94,8 @@
       "unordered_map": "cpp",
       "utility": "cpp",
       "vector": "cpp",
-      "*.tpp": "cpp"
+      "*.tpp": "cpp",
+      "iomanip": "cpp"
     }
   }
 }

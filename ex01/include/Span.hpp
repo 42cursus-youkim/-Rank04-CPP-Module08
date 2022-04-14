@@ -31,7 +31,7 @@ class Span {
   void addNumber(const T& begin, const T& end) {
     const uint size = std::distance(begin, end);
     if (_n < _vec.size() + size)
-      throw std::out_of_range("too many numbers");
+      throw std::out_of_range("internal storage full");
 
     _vec.insert(_vec.end(), begin, end);
   }
