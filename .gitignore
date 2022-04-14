@@ -1,6 +1,5 @@
 # Compiled Binary
-main
-template
+prog.out
 
 # Prerequisites
 *.d
