@@ -17,7 +17,7 @@ run: all
 	./$(NAME)
 
 clean:
-	$(RM) $(wildcard $(OBJ)) $(NAME)
+	$(RM) $(OBJ) $(NAME)
 
 leak: all
 	colour-valgrind --leak-check=full ./$(NAME)
