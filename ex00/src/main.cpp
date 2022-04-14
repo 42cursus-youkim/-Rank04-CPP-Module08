@@ -5,37 +5,30 @@
 #include "easyfind.hpp"
 #include "test.hpp"
 
+using std::cout;
 using std::string;
 
+void test_vector() {
+  test::header("vector");
+  std::vector<int> vec(10);
+  for (int i = 0; i < 10; ++i)
+    vec[i] = i;
+
+  test_easyfind(vec);
+}
+
+void test_list() {
+  test::header("list");
+  std::list<int> lst(10);
+
+  for (int i = 0; i < 10; ++i)
+    lst.push_back(i);
+
+  test_easyfind(lst);
+}
+
 int main(void) {
-  {
-    test::header("vector");
-    std::vector<int> v(10);
-    for (int i = 0; i < 10; ++i) {
-      v[i] = i;
-    }
-    for (int i = 0; i < 15; ++i) {
-      std::vector<int>::iterator it = easyfind(v, i);
-      if (it == v.end()) {
-        std::cout << "Not found" << std::endl;
-      } else {
-        std::cout << "Found: " << *it << std::endl;
-      }
-    }
-  }
-  {
-    test::header("list");
-    std::list<int> l;
-    for (int i = 0; i < 10; ++i) {
-      l.push_back(i);
-    }
-    for (int i = 0; i < 15; ++i) {
-      std::list<int>::iterator it = easyfind(l, i);
-      if (it == l.end()) {
-        std::cout << "Not found" << std::endl;
-      } else {
-        std::cout << "Found: " << *it << std::endl;
-      }
-    }
-  }
+  test_vector();
+  test_list();
+  return 0;
 }
