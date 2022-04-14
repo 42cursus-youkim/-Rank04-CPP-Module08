@@ -33,7 +33,7 @@ class Span {
     if (_n < _vec.size() + size)
       throw std::out_of_range("too many numbers");
 
-    _vec.insert(begin, end);
+    _vec.insert(_vec.end(), begin, end);
   }
 
   size_t shortestSpan() const;
