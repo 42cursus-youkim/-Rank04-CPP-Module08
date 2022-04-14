@@ -21,8 +21,7 @@ MutantStack<T>::~MutantStack(){};
 // Operator
 template <typename T>
 MutantStack<T>& MutantStack<T>::operator=(MutantStack<T> const& other) {
-  if (this != &other)
-    MutantStack<T>::stack::operator=(other);
+  this->c = other.c;
   return (*this);
 }
 

@@ -13,12 +13,34 @@ void printInt(int value) {
   std::cout << value << ", ";
 }
 
-void mstack_info(MutantStack<int>& mstack) {
-  log::val("size  ", mstack.size());
-  log::val("empty?", mstack.empty());
+void mstack_data(MutantStack<int>& mstack) {
   cout << BBLU << "data   " << HYEL ": " YEL;
   std::for_each(mstack.begin(), mstack.end(), printInt);
   cout << "\n" END;
+}
+
+void mstack_data_rev(MutantStack<int>& mstack) {
+  cout << BBLU << "data   " << HYEL ": " YEL;
+  std::for_each(mstack.rbegin(), mstack.rend(), printInt);
+  cout << "\n" END;
+}
+
+void mstack_data_const(const MutantStack<int>& mstack) {
+  cout << BBLU << "data   " << HYEL ": " YEL;
+  std::for_each(mstack.begin(), mstack.end(), printInt);
+  cout << "\n" END;
+}
+
+void mstack_data_const_rev(const MutantStack<int>& mstack) {
+  cout << BBLU << "data   " << HYEL ": " YEL;
+  std::for_each(mstack.rbegin(), mstack.rend(), printInt);
+  cout << "\n" END;
+}
+
+void mstack_info(const MutantStack<int>& mstack) {
+  log::val("size  ", mstack.size());
+  log::val("empty?", mstack.empty());
+  mstack_data_const(mstack);
 }
 
 void test_mandatory() {
@@ -74,17 +96,24 @@ void test_mandatory() {
 void test_copy() {
   test::header("copy constructor");
   MutantStack<int> mstack;
+  for (int i = 0; i < 3; i++)
+    mstack.push(i);
 
   MutantStack<int> copied(mstack);
-  MutantStack<int> assigned = mstack;
+  MutantStack<int> assigned(mstack);
 
   for (int i = 0; i < 3; i++)
     copied.pop();
-  for (int i = 120; i < 24; i++)
+
+  assigned.pop();
+  for (int i = 7; i < 14; i++)
     assigned.push(i);
 
+  test::subject("Mutantstack");
   mstack_info(mstack);
+  test::subject("copied");
   mstack_info(copied);
+  test::subject("assigned");
   mstack_info(assigned);
 }
 
@@ -99,7 +128,7 @@ void test_general() {
     for (int i = 0; i < 10; ++i)
       mstack.push(i);
     mstack_info(mstack);
-    test::subject("\npop untill empty");
+    test::subject("pop until empty");
     for (int i = 0; i < 10; ++i) {
       log::val("top", mstack.top());
       mstack.pop();
@@ -112,26 +141,18 @@ void test_general() {
       mstack.push(i);
 
     test::subject("iterator");
-    std::for_each(mstack.begin(), mstack.end(), printInt);
+    mstack_data(mstack);
     test::subject("reverse iterator");
-    std::for_each(mstack.rbegin(), mstack.rend(), printInt);
+    mstack_data_rev(mstack);
     test::subject("const iterator");
-    for (MutantStack<int>::const_iterator it = mstack.begin();
-         it != mstack.end(); ++it) {
-      std::cout << *it << ", ";
-    }
-
+    mstack_data_const(mstack);
     test::subject("const reverse iterator");
-    for (MutantStack<int>::const_reverse_iterator it = mstack.rbegin();
-         it != mstack.rend(); ++it) {
-      std::cout << *it << ", ";
-    }
-    cout << "\n";
+    mstack_data_const_rev(mstack);
   }
 }
 
 int main(void) {
-  // test_mandatory();
-  // test_general();
+  test_mandatory();
+  test_general();
   test_copy();
 }
