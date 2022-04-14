@@ -66,6 +66,22 @@ void test_errors() {
       print_spans(sp);
     });
   }
+  {
+    test::subject("size too small (0, { })");
+    Span sp(10);
+    TEST_ASSERT_THROW({ LOG_VAL(sp.longestSpan()); });
+    TEST_ASSERT_THROW({ LOG_VAL(sp.shortestSpan()); });
+    sp.addNumber(1);
+    test::subject("size too small (1, { 1 })");
+    TEST_ASSERT_THROW({ LOG_VAL(sp.longestSpan()); });
+    TEST_ASSERT_THROW({ LOG_VAL(sp.shortestSpan()); });
+    test::subject("size is OK (2, { 1, 12 })");
+    sp.addNumber(12);
+    print_spans(sp);
+    test::subject("size is OK (3, { 1, 4, 12 })");
+    sp.addNumber(4);
+    print_spans(sp);
+  }
 }
 
 void test_general() {
@@ -95,6 +111,13 @@ void test_general() {
     Span sp = Span(5);
     for (int i = 0; i < 5; i++)
       sp.addNumber(5);
+    print_spans(sp);
+  }
+  {
+    test::subject("smol values { 1, 3 }");
+    Span sp = Span(2);
+    sp.addNumber(1);
+    sp.addNumber(3);
     print_spans(sp);
   }
 }
